@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "banking"
   spec.version       = Banking::VERSION
   spec.authors       = ["adelrioj"]
-  spec.email         = ["alejandro@nextail.co"]
+  spec.email         = ["adelrioj@gmail.com"]
 
   spec.summary       = %q{A code challenge for Digital Origin}
   spec.license       = "MIT"
