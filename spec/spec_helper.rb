@@ -1,5 +1,6 @@
 require "bundler/setup"
 require "banking"
+require "banking/bank"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
