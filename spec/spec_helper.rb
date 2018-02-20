@@ -1,11 +1,12 @@
-require "bundler/setup"
-require "banking"
-require "banking/bank"
-require "banking/accounts/account_basic"
+require 'bundler/setup'
+require 'banking'
+require 'banking/bank'
+require 'banking/accounts/account_basic'
+require 'banking/transfers/transfer_intra_bank'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = ".rspec_status"
+  config.example_status_persistence_file_path = '.rspec_status'
 
   # Disable RSpec exposing methods globally on `Module` and `main`
   config.disable_monkey_patching!
