@@ -18,6 +18,10 @@ module Banking
       @accounts[account_id]
     end
 
+    def ==(other)
+      @name == other.name
+    end
+
     private
 
     def validate!
