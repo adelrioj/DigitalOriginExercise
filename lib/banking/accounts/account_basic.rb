@@ -38,10 +38,6 @@ module Banking
         raise ArgumentError, 'initial_deposit must be BigDecimal' unless @balance.is_a?(BigDecimal)
         check_positive_amount!(@balance)
       end
-
-      def check_positive_amount!(amount)
-        raise ArgumentError, 'amount of money must be positive' if amount < '0'.to_d
-      end
     end
   end
 end
