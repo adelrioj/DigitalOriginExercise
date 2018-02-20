@@ -77,12 +77,5 @@ RSpec.describe Banking::Transfers::TransferInterBank do
       expect { Banking::Transfers::TransferInterBank.new(account_from, to_same_bank, ACCOUNT_AMOUNT) }
           .to raise_error('Banks must be different')
     end
-
-    it 'total_amount > origin account balance' do
-      fail_transfer = Banking::Transfers::TransferInterBank.new(account_from, account_to, ACCOUNT_AMOUNT)
-      expect(fail_transfer).to receive(:attempt_succeeded?).and_return(true)
-      expect { fail_transfer.apply.succeeded? }
-        .to raise_error('Not enough money on the account for the requested withdraw')
-    end
   end
 end
