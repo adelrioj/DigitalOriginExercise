@@ -31,6 +31,10 @@ module Banking
         @balance -= amount
       end
 
+      def ==(another_account)
+        @account_number == another_account.account_number
+      end
+
       private
 
       def validate!
