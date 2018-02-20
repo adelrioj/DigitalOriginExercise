@@ -4,7 +4,8 @@ require 'banking/accounts/account_helper'
 
 module Banking
   module Accounts
-
+    # AccountBasic entity represent an Account with client_name, account_number and balance,
+    # and include operations to deposit and withdraw money.
     class AccountBasic
       include Banking::Accounts::AccountHelper
 
