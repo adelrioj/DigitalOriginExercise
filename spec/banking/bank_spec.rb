@@ -3,7 +3,7 @@ require "spec_helper"
 RSpec.describe Banking::Bank do
 
   let(:bank) { Banking::Bank.new(:test_bank) }
-  let(:account) { Banking::Accounts::AccountBasic.new('test_client') }
+  let(:account) { Banking::Accounts::AccountBasic.new(bank, 'test_client') }
 
   describe 'create bank' do
     it 'has a name' do
