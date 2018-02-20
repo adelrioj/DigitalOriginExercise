@@ -3,6 +3,7 @@ require 'banking'
 require 'banking/bank'
 require 'banking/accounts/account_basic'
 require 'banking/transfers/transfer_intra_bank'
+require 'banking/transfers/transfer_inter_bank'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
