@@ -81,7 +81,8 @@ RSpec.describe Banking::Transfers::TransferInterBank do
     it 'total_amount > origin account balance' do
       fail_transfer = Banking::Transfers::TransferInterBank.new(account_from, account_to, ACCOUNT_AMOUNT)
       expect(fail_transfer).to receive(:attempt_succeeded?).and_return(true)
-      expect(fail_transfer.apply.succeeded?).to be false
+      expect { fail_transfer.apply.succeeded? }
+        .to raise_error('Not enough money on the account for the requested withdraw')
     end
   end
 end

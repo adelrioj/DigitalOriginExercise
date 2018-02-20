@@ -28,9 +28,9 @@ module Banking
           @status = STATUS_FAIL
         end
         self
-      rescue ArgumentError
+      rescue ArgumentError => e
         @status = STATUS_FAIL
-        self
+        raise e
       end
 
       def succeeded?

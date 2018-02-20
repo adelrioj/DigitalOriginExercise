@@ -23,9 +23,9 @@ module Banking
         @status = STATUS_SUCCESS
         @account_from.bank.add_transfer(self)
         self
-      rescue ArgumentError
+      rescue ArgumentError => e
         @status = STATUS_FAIL
-        self
+        raise e
       end
 
       def succeeded?
