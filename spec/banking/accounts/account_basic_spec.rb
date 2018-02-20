@@ -25,6 +25,11 @@ RSpec.describe Banking::Accounts::AccountBasic do
       default_deposit_account = Banking::Accounts::AccountBasic.new(bank, CLIENT_NAME)
       expect(default_deposit_account.balance).to eq(Banking::Accounts::AccountBasic::DEFAULT_INITIAL_DEPOSIT)
     end
+
+    it 'gets stored in Bank' do
+      expect(bank.find_account(account.account_number)).not_to be_nil
+      expect(bank.find_account(account.account_number)).to eq(account)
+    end
   end
 
   describe 'deposit in account' do

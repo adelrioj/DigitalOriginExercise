@@ -19,6 +19,7 @@ module Banking
         @account_number = create_account_number
         @balance = initial_deposit
         validate!
+        @bank.add_account(@account_number, self)
       end
 
       def deposit(amount)
