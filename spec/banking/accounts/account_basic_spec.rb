@@ -5,7 +5,8 @@ RSpec.describe Banking::Accounts::AccountBasic do
   INITIAL_DEPOSIT = '1000'.to_d.freeze
   CLIENT_NAME = 'client'.freeze
 
-  let(:account) { Banking::Accounts::AccountBasic.new(CLIENT_NAME, INITIAL_DEPOSIT) }
+  let(:bank) { Banking::Bank.new(:test_bank) }
+  let(:account) { Banking::Accounts::AccountBasic.new(bank, CLIENT_NAME, INITIAL_DEPOSIT) }
 
   describe 'create account' do
     it 'has a client_name' do
@@ -21,7 +22,7 @@ RSpec.describe Banking::Accounts::AccountBasic do
     end
 
     it 'has a default value for initial_deposit' do
-      default_deposit_account = Banking::Accounts::AccountBasic.new(CLIENT_NAME)
+      default_deposit_account = Banking::Accounts::AccountBasic.new(bank, CLIENT_NAME)
       expect(default_deposit_account.balance).to eq(Banking::Accounts::AccountBasic::DEFAULT_INITIAL_DEPOSIT)
     end
   end
@@ -44,17 +45,22 @@ RSpec.describe Banking::Accounts::AccountBasic do
 
   describe 'errors' do
     it 'Account has empty client_name' do
-      expect { Banking::Accounts::AccountBasic.new('') }
+      expect { Banking::Accounts::AccountBasic.new(bank, '') }
         .to raise_error('Empty client_name')
     end
 
     it 'Account initial_deposit is not BigDecimal' do
-      expect { Banking::Accounts::AccountBasic.new('test_client', 5) }
+      expect { Banking::Accounts::AccountBasic.new(bank, 'test_client', 5) }
         .to raise_error('initial_deposit must be BigDecimal')
     end
 
+    it 'Account Bank is not Banking::Bank' do
+      expect { Banking::Accounts::AccountBasic.new('fake_bak', 'test_client') }
+        .to raise_error('Bank is not valid')
+    end
+
     it 'Account with negative initial deposit' do
-      expect { Banking::Accounts::AccountBasic.new('test_client', '-5.0'.to_d) }
+      expect { Banking::Accounts::AccountBasic.new(bank, 'test_client', '-5.0'.to_d) }
         .to raise_error('amount of money must be positive')
     end
 
