@@ -28,7 +28,8 @@ RSpec.describe Banking::Transfers::TransferInterBank do
     end
 
     it 'amount <= limit' do
-      expect(transfer.amount).to be <= transfer.amount_limit
+      limit = Banking::Transfers::TransferInterBank.amount_limit
+      expect(transfer.amount).to be <= limit
     end
   end
 
@@ -58,7 +59,8 @@ RSpec.describe Banking::Transfers::TransferInterBank do
 
   describe 'calculate total_amount' do
     it 'total_amount = amount + commission' do
-      expect(transfer.amount + transfer.commission).to eq(transfer.total_amount)
+      commission = Banking::Transfers::TransferInterBank.commission
+      expect(transfer.amount + commission).to eq(transfer.total_amount)
     end
   end
 

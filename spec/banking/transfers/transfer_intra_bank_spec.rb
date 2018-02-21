@@ -23,6 +23,11 @@ RSpec.describe Banking::Transfers::TransferIntraBank do
     it 'has amount to transfer' do
       expect(transfer.amount).to eq(AMOUNT)
     end
+
+    it 'amount <= limit' do
+      limit = Banking::Transfers::TransferInterBank.amount_limit
+      expect(transfer.amount).to be <= limit
+    end
   end
 
   describe 'apply transfer' do
@@ -31,8 +36,8 @@ RSpec.describe Banking::Transfers::TransferIntraBank do
       balance_to_before = to.balance
       transfer.apply
       expect(transfer.succeeded?).to be true
-      expect(from.balance).to eq(balance_from_before - AMOUNT)
-      expect(to.balance).to eq(balance_to_before + AMOUNT)
+      expect(from.balance).to eq(balance_from_before - transfer.total_amount)
+      expect(to.balance).to eq(balance_to_before + transfer.amount)
     end
 
     it 'gets stored in Bank' do
@@ -42,7 +47,8 @@ RSpec.describe Banking::Transfers::TransferIntraBank do
     end
 
     it 'total_amount = amount + commission' do
-      expect(transfer.amount + transfer.commission).to eq(transfer.total_amount)
+      commission = Banking::Transfers::TransferIntraBank.commission
+      expect(transfer.amount + commission).to eq(transfer.total_amount)
     end
   end
 

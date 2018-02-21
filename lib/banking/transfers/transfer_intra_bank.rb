@@ -32,20 +32,20 @@ module Banking
         @status == STATUS_SUCCESS
       end
 
-      def amount_limit
-        Float::INFINITY
-      end
-
-      def commission
-        '0.0'.to_d
-      end
-
       def total_amount
-        @amount + commission
+        @amount + self.class.commission
       end
 
       def to_s
         "account from: #{@account_from}\naccount to: #{@account_to}\namount: #{amount}"
+      end
+
+      def self.amount_limit
+        Float::INFINITY
+      end
+
+      def self.commission
+        '0.0'.to_d
       end
 
       private

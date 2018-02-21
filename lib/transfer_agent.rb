@@ -23,7 +23,7 @@ class TransferAgent
 
   def execute_transfer!(account_to, amount)
     transfer = determine_transfer(account_to, amount)
-    raise ArgumentError, 'amount of money must be <= amount_limit' if amount > transfer.amount_limit
+    raise ArgumentError, 'amount of money must be <= amount_limit' if amount > transfer.class.amount_limit
     transfer.apply until transfer.succeeded?
     transfer
   end
