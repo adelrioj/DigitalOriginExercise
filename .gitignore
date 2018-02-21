@@ -12,3 +12,6 @@
 
 # as this is a gem, do not include Gemfile.lock
 /Gemfile.lock
+
+# do not include gem build
+*.gem
