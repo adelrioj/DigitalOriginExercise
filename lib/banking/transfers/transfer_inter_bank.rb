@@ -49,6 +49,10 @@ module Banking
         @amount + commission
       end
 
+      def to_s
+        "account from: #{@account_from}\naccount to: #{@account_to}\namount: #{amount}"
+      end
+
       private
 
       def attempt_succeeded?

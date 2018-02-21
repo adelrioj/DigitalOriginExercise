@@ -37,6 +37,10 @@ module Banking
         @account_number == other.account_number && @bank == other.bank
       end
 
+      def to_s
+        "Bank: #{@bank.name} Account: #{@account_number} client: #{@client_name}"
+      end
+
       private
 
       def validate!
