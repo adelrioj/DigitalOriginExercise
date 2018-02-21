@@ -36,8 +36,12 @@ module Banking
         Float::INFINITY
       end
 
-      def commision
+      def commission
         '0.0'.to_d
+      end
+
+      def total_amount
+        @amount + commission
       end
 
       private

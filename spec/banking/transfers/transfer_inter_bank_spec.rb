@@ -56,21 +56,27 @@ RSpec.describe Banking::Transfers::TransferInterBank do
     end
   end
 
+  describe 'calculate total_amount' do
+    it 'total_amount = amount + commission' do
+      expect(transfer.amount + transfer.commission).to eq(transfer.total_amount)
+    end
+  end
+
   describe 'errors' do
     it 'transfer has negative amount' do
       expect { Banking::Transfers::TransferInterBank.new(account_from, account_to, '-5.0'.to_d) }
-          .to raise_error('amount of money must be positive')
+        .to raise_error('amount of money must be positive')
     end
 
     it 'accounts are the same' do
       expect { Banking::Transfers::TransferInterBank.new(account_from, account_from, ACCOUNT_AMOUNT) }
-          .to raise_error('Accounts must be different')
+        .to raise_error('Accounts must be different')
     end
 
     it 'accounts are from the same bank' do
       to_same_bank = Banking::Accounts::AccountBasic.new(account_from.bank, 'client', ACCOUNT_AMOUNT)
       expect { Banking::Transfers::TransferInterBank.new(account_from, to_same_bank, ACCOUNT_AMOUNT) }
-          .to raise_error('Banks must be different')
+        .to raise_error('Banks must be different')
     end
   end
 end

@@ -41,12 +41,12 @@ module Banking
         '1000.0'.to_d
       end
 
-      def commision
+      def commission
         '5.0'.to_d
       end
 
       def total_amount
-        @amount + commision
+        @amount + commission
       end
 
       private

@@ -40,6 +40,10 @@ RSpec.describe Banking::Transfers::TransferIntraBank do
       transfer.apply
       expect(bank.transfers.size).to eq(size_transfers_bank_before + 1)
     end
+
+    it 'total_amount = amount + commission' do
+      expect(transfer.amount + transfer.commission).to eq(transfer.total_amount)
+    end
   end
 
   describe 'errors' do
