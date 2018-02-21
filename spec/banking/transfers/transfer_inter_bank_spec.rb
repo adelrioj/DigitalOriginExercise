@@ -70,6 +70,12 @@ RSpec.describe Banking::Transfers::TransferInterBank do
         .to raise_error('amount of money must be positive')
     end
 
+    it 'amount is above limit' do
+      above_limit_amount = Banking::Transfers::TransferInterBank.amount_limit + '1.0'.to_d
+      expect { Banking::Transfers::TransferInterBank.new(account_from, account_to, above_limit_amount) }
+          .to raise_error('amount of money must be below or equal limit')
+    end
+
     it 'accounts are the same' do
       expect { Banking::Transfers::TransferInterBank.new(account_from, account_from, ACCOUNT_AMOUNT) }
         .to raise_error('Accounts must be different')

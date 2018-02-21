@@ -38,10 +38,5 @@ RSpec.describe TransferAgent do
       expect { TransferAgent.new('fake_account') }
         .to raise_error('You must use a valid Account to operate')
     end
-
-    it 'amount is above limit' do
-      expect { transfer_agent.execute_transfer!(account_to, '1001.0'.to_d) }
-        .to raise_error('amount of money must be <= amount_limit')
-    end
   end
 end
