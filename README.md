@@ -9,6 +9,14 @@ _A code challenge for Digital Origin by Alejandro del Rio Juango_
 > gem install bundler
 > bundle install
 
-## Testing:
+## Testing
 
 > bundle exec rspec spec
+
+## Build gem
+
+> gem build banking.gemspec
+
+## Run example:
+> gem install ./banking-0.1.0.gem 
+> ruby sh
