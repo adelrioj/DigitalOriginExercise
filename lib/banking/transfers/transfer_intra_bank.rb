@@ -32,10 +32,6 @@ module Banking
         @status == STATUS_SUCCESS
       end
 
-      def total_amount
-        @amount + self.class.commission
-      end
-
       def to_s
         "account from: #{@account_from}\naccount to: #{@account_to}\namount: #{amount}"
       end

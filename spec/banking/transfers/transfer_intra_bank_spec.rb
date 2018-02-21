@@ -36,7 +36,8 @@ RSpec.describe Banking::Transfers::TransferIntraBank do
       balance_to_before = to.balance
       transfer.apply
       expect(transfer.succeeded?).to be true
-      expect(from.balance).to eq(balance_from_before - transfer.total_amount)
+      net_withdraw_amount = transfer.amount + Banking::Transfers::TransferIntraBank.commission
+      expect(from.balance).to eq(balance_from_before - net_withdraw_amount)
       expect(to.balance).to eq(balance_to_before + transfer.amount)
     end
 
@@ -44,11 +45,6 @@ RSpec.describe Banking::Transfers::TransferIntraBank do
       size_transfers_bank_before = bank.transfers.size
       transfer.apply
       expect(bank.transfers.size).to eq(size_transfers_bank_before + 1)
-    end
-
-    it 'total_amount = amount + commission' do
-      commission = Banking::Transfers::TransferIntraBank.commission
-      expect(transfer.amount + commission).to eq(transfer.total_amount)
     end
   end
 

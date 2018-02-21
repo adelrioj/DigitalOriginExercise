@@ -19,7 +19,7 @@ module Banking
 
       def apply
         if attempt_succeeded?
-          @account_from.withdraw(total_amount)
+          @account_from.withdraw(@amount + self.class.commission)
           @account_to.deposit(@amount)
           @account_from.bank.add_transfer(self)
           @account_to.bank.add_transfer(self)
@@ -35,10 +35,6 @@ module Banking
 
       def succeeded?
         @status == STATUS_SUCCESS
-      end
-
-      def total_amount
-        @amount + self.class.commission
       end
 
       def to_s
