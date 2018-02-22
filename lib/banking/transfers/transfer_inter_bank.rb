@@ -38,7 +38,7 @@ module Banking
       end
 
       def to_s
-        "account from: #{@account_from}\naccount to: #{@account_to}\namount: #{amount}"
+        "account from: #{@account_from}\naccount to: #{@account_to}\namount: #{pretiffy_amount(@amount)}€"
       end
 
       def self.amount_limit
