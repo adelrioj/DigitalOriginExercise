@@ -19,4 +19,4 @@ _A code challenge for Digital Origin by Alejandro del Rio Juango_
 
 ## Run example:
 > gem install ./banking-0.1.0.gem 
-> ruby sh
+> ruby show_me_the_money.rb 
