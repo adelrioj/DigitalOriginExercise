@@ -57,12 +57,12 @@ module Banking
       end
 
       def validate!
+        validate_account!(@account_from)
+        validate_account!(@account_to)
         raise ArgumentError, 'amount of money must be positive' if @amount < '0'.to_d
         raise ArgumentError, 'amount of money must be below or equal limit' if @amount > self.class.amount_limit
         raise ArgumentError, 'Accounts must be different' if @account_from == @account_to
         raise ArgumentError, 'Banks must be different' if @account_from.bank == @account_to.bank
-        validate_account!(@account_from)
-        validate_account!(@account_to)
       end
     end
   end
