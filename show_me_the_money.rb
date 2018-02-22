@@ -32,9 +32,8 @@ def run
 end
 
 def call_agent(account_jim, account_emma, jim_debt)
-  jim_agent = TransferAgent.new(account_jim)
-  transfer = jim_agent.execute_transfer!(account_emma, jim_debt)
-  puts "Agent report transfer status: #{transfer.succeeded? ? 'OK' : 'FAIL'}"
+  TransferAgent.new(account_jim, account_emma, jim_debt).execute_transfer!
+  puts 'Agent operation is finished'
 rescue ArgumentError => e
   puts "Agent reports an error: #{e.message}"
 end
@@ -47,7 +46,8 @@ def print_status(account_a, account_b)
 end
 
 def print_account_status(account)
-  puts "#{account.client_name}'s account balance is #{account.balance}€"
+  pretty_balance = (account.balance.to_f * 100).to_i / 100.0
+  puts "#{account.client_name}'s account balance is #{pretty_balance}€"
   print_bank_transfers(account.bank)
 end
 
