@@ -14,7 +14,7 @@ module Banking
         @account_from = account_from
         @account_to = account_to
         @amount = amount
-        validate!
+        validate
       end
 
       def apply
@@ -46,12 +46,12 @@ module Banking
 
       private
 
-      def validate!
+      def validate
         raise ArgumentError, 'amount of money must be positive' if @amount < '0'.to_d
         raise ArgumentError, 'Accounts must be different' if @account_from == @account_to
         raise ArgumentError, 'Banks must be the same' unless @account_from.bank == @account_to.bank
-        validate_account!(@account_from)
-        validate_account!(@account_to)
+        validate_account(@account_from)
+        validate_account(@account_to)
       end
     end
   end

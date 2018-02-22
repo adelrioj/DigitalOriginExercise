@@ -8,7 +8,7 @@ module Banking
       @name = name
       @accounts = {}
       @transfers = []
-      validate!
+      validate
     end
 
     def add_account(account_id, account)
@@ -29,7 +29,7 @@ module Banking
 
     private
 
-    def validate!
+    def validate
       raise ArgumentError, 'Empty name' if @name.nil?
       raise ArgumentError, 'Name must be a symbol' unless @name.is_a?(Symbol)
     end

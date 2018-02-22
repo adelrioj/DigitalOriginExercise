@@ -6,7 +6,7 @@ module Banking
       STATUS_SUCCESS = 'success'.freeze
       STATUS_FAIL = 'fail'.freeze
 
-      def validate_account!(account)
+      def validate_account(account)
         raise ArgumentError, 'You must use a valid Account to operate' unless account.respond_to?('deposit')
         raise ArgumentError, 'You must use a valid Account to operate' unless account.respond_to?('withdraw')
       end

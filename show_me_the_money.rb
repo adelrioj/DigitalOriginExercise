@@ -32,7 +32,7 @@ def run
 end
 
 def call_agent(account_jim, account_emma, jim_debt)
-  TransferAgent.new(account_jim, account_emma, jim_debt).execute_transfer!
+  TransferAgent.new(account_jim, account_emma, jim_debt).execute_transfer
   puts 'Agent operation is finished'
 rescue ArgumentError => e
   puts "Agent reports an error: #{e.message}"

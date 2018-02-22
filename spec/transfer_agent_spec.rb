@@ -32,7 +32,7 @@ RSpec.describe TransferAgent do
       balance_to_before = account_to_a.balance
       agent = TransferAgent.new(account_from_a, account_to_a, transfer_amount)
       expect(agent.transfer_splitted?).to be false
-      expect(agent.execute_transfer!.size).to be(1)
+      expect(agent.execute_transfer.size).to be(1)
       expect(account_from_a.balance).to eq(balance_from_before - agent.full_withdraw_amount)
       expect(account_to_a.balance).to eq(balance_to_before + agent.amount)
     end
@@ -42,7 +42,7 @@ RSpec.describe TransferAgent do
       balance_to_before = account_to_b.balance
       agent = TransferAgent.new(account_from_a, account_to_b, transfer_amount)
       expect(agent.transfer_splitted?).to be true
-      expect(agent.execute_transfer!.size).to be > 1
+      expect(agent.execute_transfer.size).to be > 1
       expect(account_from_a.balance).to eq(balance_from_before - agent.full_withdraw_amount)
       expect(account_to_b.balance).to eq(balance_to_before + agent.amount)
     end
@@ -50,7 +50,7 @@ RSpec.describe TransferAgent do
     it 'stores in bank correctly' do
       bank_transfers_size_from = bank_a.transfers.size
       bank_transfers_size_to = bank_b.transfers.size
-      transfer_agent.execute_transfer!
+      transfer_agent.execute_transfer
       expect(bank_a.transfers.size).to eq(bank_transfers_size_from + transfer_agent.transfers.size)
       expect(bank_b.transfers.size).to eq(bank_transfers_size_to + transfer_agent.transfers.size)
     end
@@ -71,7 +71,7 @@ RSpec.describe TransferAgent do
 
     it 'not enough balance in origin' do
       agent = TransferAgent.new(account_from_a, account_to_b, account_from_a.balance + '1.0'.to_d)
-      expect { agent.execute_transfer! }
+      expect { agent.execute_transfer }
         .to raise_error('account balance not enough for transfer')
     end
   end

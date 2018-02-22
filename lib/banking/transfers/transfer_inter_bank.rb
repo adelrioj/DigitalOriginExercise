@@ -14,7 +14,7 @@ module Banking
         @account_from = account_from
         @account_to = account_to
         @amount = amount
-        validate!
+        validate
       end
 
       def apply
@@ -56,9 +56,9 @@ module Banking
         rand * 100 > failure_ratio_percent
       end
 
-      def validate!
-        validate_account!(@account_from)
-        validate_account!(@account_to)
+      def validate
+        validate_account(@account_from)
+        validate_account(@account_to)
         raise ArgumentError, 'amount of money must be positive' if @amount < '0'.to_d
         raise ArgumentError, 'amount of money must be below or equal limit' if @amount > self.class.amount_limit
         raise ArgumentError, 'Accounts must be different' if @account_from == @account_to

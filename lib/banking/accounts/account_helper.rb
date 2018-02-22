@@ -6,7 +6,7 @@ module Banking
         rand(10**10)
       end
 
-      def check_positive_amount!(amount)
+      def check_positive_amount(amount)
         raise ArgumentError, 'amount of money must be positive' if amount < '0'.to_d
       end
     end

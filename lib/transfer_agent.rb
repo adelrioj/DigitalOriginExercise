@@ -21,14 +21,14 @@ class TransferAgent
     @account_from = account_from
     @account_to = account_to
     @amount = amount
-    validate!
+    validate
     @transfer_class = determine_transfer_class
     @full_iterations = calculate_full_iterations
     @transfers = []
   end
 
-  def execute_transfer!
-    validate_withdraw_balance!
+  def execute_transfer
+    validate_withdraw_balance
     determine_execute_transfer
     @transfers
   end
@@ -80,13 +80,13 @@ class TransferAgent
     @transfers << transfer
   end
 
-  def validate!
-    validate_account!(@account_from)
-    validate_account!(@account_to)
+  def validate
+    validate_account(@account_from)
+    validate_account(@account_to)
     raise ArgumentError, 'amount of money must be positive' if @amount < '0'.to_d
   end
 
-  def validate_withdraw_balance!
+  def validate_withdraw_balance
     raise StandardError, 'account balance not enough for transfer' if @account_from.balance < full_withdraw_amount
   end
 end

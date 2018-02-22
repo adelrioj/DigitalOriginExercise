@@ -18,17 +18,17 @@ module Banking
         @client_name = client_name
         @account_number = create_account_number
         @balance = initial_deposit
-        validate!
+        validate
         @bank.add_account(@account_number, self)
       end
 
       def deposit(amount)
-        check_positive_amount!(amount)
+        check_positive_amount(amount)
         @balance += amount
       end
 
       def withdraw(amount)
-        check_positive_amount!(amount)
+        check_positive_amount(amount)
         raise ArgumentError, 'Not enough money on the account for the requested withdraw' if amount > @balance
         @balance -= amount
       end
@@ -43,11 +43,11 @@ module Banking
 
       private
 
-      def validate!
+      def validate
         raise ArgumentError, 'Empty client_name' if @client_name.empty?
         raise ArgumentError, 'initial_deposit must be BigDecimal' unless @balance.is_a?(BigDecimal)
         raise ArgumentError, 'Bank is not valid' unless @bank.is_a?(Banking::Bank)
-        check_positive_amount!(@balance)
+        check_positive_amount(@balance)
       end
     end
   end
