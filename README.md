@@ -23,6 +23,8 @@ The solution has some issues and posibilities to improve:
     - Account numbers are not unique. When creating an account number, the system should be aware of which numbers are available.
     - TransferAgent uses accounts of different banks as if they are fully available. Probably, a good addition would be 
     to manage accounts different depending on each bank specifications.
+    - show_me_the_money does too much stuff. A better approach would be to create a notifier class, some kind of 
+    observer over TransferAgent, that shows the before and after status of the operation.
  
  - How would you adapt your solution if transfers are not instantaneous?
     - First of all, accounts should have some 'balance-buffer' to manage that some cash that must be transfered 
