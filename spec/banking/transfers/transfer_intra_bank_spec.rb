@@ -11,12 +11,10 @@ RSpec.describe Banking::Transfers::TransferIntraBank do
 
   describe 'create Transfer' do
     it 'has origin account' do
-      expect(transfer.account_from).not_to be_nil
       expect(transfer.account_from).to eq(from)
     end
 
     it 'has destination account' do
-      expect(transfer.account_to).not_to be_nil
       expect(transfer.account_to).to eq(to)
     end
 

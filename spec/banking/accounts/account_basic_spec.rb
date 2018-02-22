@@ -27,7 +27,6 @@ RSpec.describe Banking::Accounts::AccountBasic do
     end
 
     it 'gets stored in Bank' do
-      expect(bank.find_account(account.account_number)).not_to be_nil
       expect(bank.find_account(account.account_number)).to eq(account)
     end
   end
