@@ -12,25 +12,6 @@
 
 require 'transfer_agent'
 
-def run
-  bank_a = Banking::Bank.new(:A)
-  bank_b = Banking::Bank.new(:B)
-
-  account_jim = Banking::Accounts::AccountBasic.new(bank_a, 'Jim', '25000'.to_d)
-  account_emma = Banking::Accounts::AccountBasic.new(bank_b, 'Emma', '25000'.to_d)
-
-  jim_debt = '20000'.to_d
-
-  puts 'BEFORE the operation:'
-  print_status(account_jim, account_emma)
-
-  puts 'Jim calls his agent to execute transfer'
-  call_agent(account_jim, account_emma, jim_debt)
-
-  puts 'AFTER the operation:'
-  print_status(account_jim, account_emma)
-end
-
 def call_agent(account_jim, account_emma, jim_debt)
   TransferAgent.new(account_jim, account_emma, jim_debt).execute_transfer
   puts 'Agent operation is finished'
@@ -62,4 +43,19 @@ def print_bank_transfers(bank)
   end
 end
 
-run
+bank_a = Banking::Bank.new(:A)
+bank_b = Banking::Bank.new(:B)
+
+account_jim = Banking::Accounts::AccountBasic.new(bank_a, 'Jim', '25000'.to_d)
+account_emma = Banking::Accounts::AccountBasic.new(bank_b, 'Emma', '25000'.to_d)
+
+jim_debt = '20000'.to_d
+
+puts 'BEFORE the operation:'
+print_status(account_jim, account_emma)
+
+puts 'Jim calls his agent to execute transfer'
+call_agent(account_jim, account_emma, jim_debt)
+
+puts 'AFTER the operation:'
+print_status(account_jim, account_emma)
