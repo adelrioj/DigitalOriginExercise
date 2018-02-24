@@ -82,10 +82,8 @@ class TransferAgent
   def execute_individual_transfer(amount)
     record = @transfer_class.apply(@account_from, @account_to, amount)
     @transfers << record
-  rescue StandardError => e
-    puts e.message
-    puts @transfer_class.commission.to_s
-    # execute_individual_transfer(amount)
+  rescue StandardError
+    execute_individual_transfer(amount)
   end
 
   def validate
