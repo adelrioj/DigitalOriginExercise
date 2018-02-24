@@ -30,7 +30,9 @@ RSpec.describe TransferAgent do
     it 'executes correctly intra-bank' do
       balance_from_before = account_from_a.balance
       balance_to_before = account_to_a.balance
+
       agent = TransferAgent.new(account_from_a, account_to_a, transfer_amount)
+
       expect(agent.transfer_splitted?).to be false
       expect(agent.execute_transfer.size).to be(1)
       expect(account_from_a.balance).to eq(balance_from_before - agent.full_withdraw_amount)
@@ -57,13 +59,6 @@ RSpec.describe TransferAgent do
   end
 
   describe 'errors' do
-    it 'uses non valid account_from for transfer at creation' do
-      expect { TransferAgent.new('fake_account', account_to_a, transfer_amount) }
-        .to raise_error('You must use a valid Account to operate')
-      expect { TransferAgent.new(account_from_a, 'fake_account', transfer_amount) }
-        .to raise_error('You must use a valid Account to operate')
-    end
-
     it 'negative amount' do
       expect { TransferAgent.new(account_from_a, account_to_b, '-5.0'.to_d) }
         .to raise_error('amount of money must be positive')
@@ -72,7 +67,7 @@ RSpec.describe TransferAgent do
     it 'not enough balance in origin' do
       agent = TransferAgent.new(account_from_a, account_to_b, account_from_a.balance + '1.0'.to_d)
       expect { agent.execute_transfer }
-        .to raise_error('account balance not enough for transfer')
+        .to raise_error('not enough account balance for transfer')
     end
   end
 end
