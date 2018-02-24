@@ -18,7 +18,7 @@ TRANSFER_TYPES = {
 }.freeze
 
 def call_agent(account_jim, account_emma, jim_debt)
-  TransferAgent.new(TRANSFER_TYPES, account_jim, account_emma, jim_debt).execute_transfer
+  TransferAgent.new(TRANSFER_TYPES).execute_transfer(account_jim, account_emma, jim_debt)
   puts 'Agent operation is finished'
 rescue ArgumentError => e
   puts "Agent reports an error: #{e.message}"

@@ -13,25 +13,27 @@ require 'banking/transfers/transfer_basic'
 # he issues transfers considering commissions, transfer limits and possibility of transfer failures.
 class TransferAgent
 
-  attr_reader :transfer_types, :account_from, :account_to, :amount, :transfers
+  attr_reader :transfer_types
 
-  def initialize(transfer_types, account_from, account_to, amount)
+  def initialize(transfer_types)
     @transfer_types = transfer_types
+  end
+
+  def execute_transfer(account_from, account_to, amount)
     @account_from = account_from
     @account_to = account_to
     @amount = amount
+    @transfer_records = []
     validate
-    @splitted_amounts = calculate_splitted_amounts
-    @transfers = []
-  end
-
-  def execute_transfer
-    raise StandardError, 'not enough account balance for transfer' if @account_from.balance < full_withdraw_amount
-    @splitted_amounts.each { |amount| execute_individual_transfer(amount) }
+    splitted_amounts.each do |amount|
+      record = execute_individual_transfer(amount)
+      @transfer_records << record
+    end
+    @transfer_records
   end
 
   def full_withdraw_amount
-    @amount + @splitted_amounts.size * transfer_type.commission
+    @amount + splitted_amounts.size * transfer_type.commission
   end
 
   private
@@ -44,7 +46,7 @@ class TransferAgent
     end
   end
 
-  def calculate_splitted_amounts
+  def splitted_amounts
     remaining_amount = @amount
     amounts = []
 
@@ -61,13 +63,13 @@ class TransferAgent
   end
 
   def execute_individual_transfer(amount)
-    record = transfer_type.apply(@account_from, @account_to, amount)
-    @transfers << record
+    transfer_type.apply(@account_from, @account_to, amount)
   rescue StandardError # TODO: change to specific error
     execute_individual_transfer(amount)
   end
 
   def validate
     raise ArgumentError, 'amount of money must be positive' if @amount < '0'.to_d
+    raise StandardError, 'not enough account balance for transfer' if @account_from.balance < full_withdraw_amount
   end
 end
