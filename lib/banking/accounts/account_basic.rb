@@ -49,6 +49,10 @@ module Banking
         raise ArgumentError, 'Bank is not valid' unless @bank.is_a?(Banking::Bank)
         check_positive_amount(@balance)
       end
+
+      def check_positive_amount(amount)
+        raise ArgumentError, 'amount of money must be positive' if amount < '0'.to_d
+      end
     end
   end
 end
