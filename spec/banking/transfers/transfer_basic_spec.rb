@@ -63,7 +63,7 @@ RSpec.describe Banking::Transfers::TransferBasic do
     end
 
     it 'negative amount_limit' do
-      expect { Banking::Transfers::TransferBasic.new('-5.0'.to_d, COMMISSION, FAILURE_RATIO) }
+      expect { Banking::Transfers::TransferBasic.new('0.0'.to_d, COMMISSION, FAILURE_RATIO) }
         .to raise_error('amount_limit must be positive')
     end
 
@@ -73,7 +73,7 @@ RSpec.describe Banking::Transfers::TransferBasic do
     end
 
     it 'negative commission' do
-      expect { Banking::Transfers::TransferBasic.new(AMOUNT_LIMIT, '-5.0'.to_d, FAILURE_RATIO) }
+      expect { Banking::Transfers::TransferBasic.new(AMOUNT_LIMIT, '-1.0'.to_d, FAILURE_RATIO) }
         .to raise_error('commission must be >= 0.0')
     end
 

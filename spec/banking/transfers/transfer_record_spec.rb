@@ -35,11 +35,6 @@ RSpec.describe Banking::Transfers::TransferRecord do
         .to raise_error('amount of money must be positive')
     end
 
-    it 'has negative amount' do
-      expect { Banking::Transfers::TransferRecord.new(account_from, account_to, AMOUNT, '-5.0'.to_d) }
-        .to raise_error('commission must be >= 0.0')
-    end
-
     it 'accounts are the same' do
       expect { Banking::Transfers::TransferRecord.new(account_from, account_from, AMOUNT, COMMISSION) }
         .to raise_error('Accounts must be different')

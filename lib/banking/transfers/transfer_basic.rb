@@ -44,9 +44,9 @@ module Banking
 
       def validate
         raise ArgumentError, 'amount_limit must be BigDecimal' unless @amount_limit.is_a?(BigDecimal)
-        raise ArgumentError, 'amount_limit must be positive' if @amount_limit < '0.0'.to_d
+        raise ArgumentError, 'amount_limit must be positive' if @amount_limit <= '0.0'.to_d
         raise ArgumentError, 'commission must be BigDecimal' unless @commission.is_a?(BigDecimal)
-        raise ArgumentError, 'commission must be >= 0.0' if @commission <= '0.0'.to_d
+        raise ArgumentError, 'commission must be >= 0.0' if @commission < '0.0'.to_d
         raise ArgumentError, 'failure_ratio must have a value between 0 and 100' if @failure_ratio < 0 || @failure_ratio > 100
       end
     end

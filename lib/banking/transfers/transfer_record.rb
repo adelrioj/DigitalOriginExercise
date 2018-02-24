@@ -25,7 +25,6 @@ module Banking
 
       def validate
         raise ArgumentError, 'amount of money must be positive' if @amount < '0.0'.to_d
-        raise ArgumentError, 'commission must be >= 0.0' if @commission <= '0.0'.to_d
         raise ArgumentError, 'Accounts must be different' if @account_from == @account_to
       end
 
