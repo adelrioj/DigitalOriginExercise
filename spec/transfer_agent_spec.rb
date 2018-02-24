@@ -33,7 +33,6 @@ RSpec.describe TransferAgent do
 
       agent = TransferAgent.new(account_from_a, account_to_a, transfer_amount)
 
-      expect(agent.transfer_splitted?).to be false
       expect(agent.execute_transfer.size).to be(1)
       expect(account_from_a.balance).to eq(balance_from_before - agent.full_withdraw_amount)
       expect(account_to_a.balance).to eq(balance_to_before + agent.amount)
@@ -43,7 +42,6 @@ RSpec.describe TransferAgent do
       balance_from_before = account_from_a.balance
       balance_to_before = account_to_b.balance
       agent = TransferAgent.new(account_from_a, account_to_b, transfer_amount)
-      expect(agent.transfer_splitted?).to be true
       expect(agent.execute_transfer.size).to be > 1
       expect(account_from_a.balance).to eq(balance_from_before - agent.full_withdraw_amount)
       expect(account_to_b.balance).to eq(balance_to_before + agent.amount)

@@ -25,26 +25,17 @@ class TransferAgent
     @account_to = account_to
     @amount = amount
     validate
-
-    @full_iterations = calculate_full_iterations
+    @splitted_amounts = calculate_splitted_amounts
     @transfers = []
   end
 
   def execute_transfer
     raise StandardError, 'not enough account balance for transfer' if @account_from.balance < full_withdraw_amount
-
-    determine_execute_transfer
-    @transfers
-  end
-
-  def transfer_splitted?
-    @amount > transfer_type.amount_limit
+    @splitted_amounts.each { |amount| execute_individual_transfer(amount) }
   end
 
   def full_withdraw_amount
-    iterations = @amount + @full_iterations * transfer_type.commission
-    iterations += transfer_type.commission if last_iteration_amount > '0.0'.to_d
-    iterations
+    @amount + @splitted_amounts.size * transfer_type.commission
   end
 
   private
@@ -57,31 +48,26 @@ class TransferAgent
     end
   end
 
-  def determine_execute_transfer
-    if transfer_splitted?
-      execute_splitted_transfer
-    else
-      execute_individual_transfer(@amount)
+  def calculate_splitted_amounts
+    remaining_amount = @amount
+    amounts = []
+
+    while remaining_amount.positive?
+      if remaining_amount < transfer_type.amount_limit
+        amounts << remaining_amount
+        remaining_amount = 0
+      else
+        amounts << transfer_type.amount_limit
+        remaining_amount -= transfer_type.amount_limit
+      end
     end
-  end
-
-  def calculate_full_iterations
-    (@amount / transfer_type.amount_limit).to_i
-  end
-
-  def last_iteration_amount
-    @amount % transfer_type.amount_limit
-  end
-
-  def execute_splitted_transfer
-    @full_iterations.times { |_i| execute_individual_transfer(transfer_type.amount_limit) }
-    execute_individual_transfer(last_iteration_amount) unless last_iteration_amount.zero?
+    amounts
   end
 
   def execute_individual_transfer(amount)
     record = transfer_type.apply(@account_from, @account_to, amount)
     @transfers << record
-  rescue StandardError
+  rescue StandardError # TODO: change to specific error
     execute_individual_transfer(amount)
   end
 
