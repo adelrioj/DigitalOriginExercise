@@ -12,8 +12,13 @@
 
 require 'transfer_agent'
 
+TRANSFER_TYPES = {
+  intra_bank: Banking::Transfers::TransferBasic.new('+Infinity'.to_d, '0.0'.to_d, 0),
+  inter_bank: Banking::Transfers::TransferBasic.new('1000.0'.to_d, '5.0'.to_d, 30)
+}.freeze
+
 def call_agent(account_jim, account_emma, jim_debt)
-  TransferAgent.new(account_jim, account_emma, jim_debt).execute_transfer
+  TransferAgent.new(TRANSFER_TYPES, account_jim, account_emma, jim_debt).execute_transfer
   puts 'Agent operation is finished'
 rescue ArgumentError => e
   puts "Agent reports an error: #{e.message}"

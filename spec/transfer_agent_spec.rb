@@ -2,6 +2,11 @@ require "spec_helper"
 
 RSpec.describe TransferAgent do
 
+  TRANSFER_TYPES = {
+    intra_bank: Banking::Transfers::TransferBasic.new('+Infinity'.to_d, '0.0'.to_d, 0),
+    inter_bank: Banking::Transfers::TransferBasic.new('1000.0'.to_d, '5.0'.to_d, 30)
+  }.freeze
+
   let(:account_amount) { '100000'.to_d }
   let(:transfer_amount) { '2000'.to_d }
 
@@ -12,7 +17,7 @@ RSpec.describe TransferAgent do
   let(:account_to_a) { Banking::Accounts::AccountBasic.new(bank_a, 'client', account_amount) }
   let(:account_to_b) { Banking::Accounts::AccountBasic.new(bank_b, 'client', account_amount) }
 
-  let(:transfer_agent) { TransferAgent.new(account_from_a, account_to_b, transfer_amount) }
+  let(:transfer_agent) { TransferAgent.new(TRANSFER_TYPES, account_from_a, account_to_b, transfer_amount) }
 
   describe 'create agent' do
     it 'has an origin account' do
@@ -31,7 +36,7 @@ RSpec.describe TransferAgent do
       balance_from_before = account_from_a.balance
       balance_to_before = account_to_a.balance
 
-      agent = TransferAgent.new(account_from_a, account_to_a, transfer_amount)
+      agent = TransferAgent.new(TRANSFER_TYPES, account_from_a, account_to_a, transfer_amount)
 
       expect(agent.execute_transfer.size).to be(1)
       expect(account_from_a.balance).to eq(balance_from_before - agent.full_withdraw_amount)
@@ -41,7 +46,7 @@ RSpec.describe TransferAgent do
     it 'executes correctly inter-bank' do
       balance_from_before = account_from_a.balance
       balance_to_before = account_to_b.balance
-      agent = TransferAgent.new(account_from_a, account_to_b, transfer_amount)
+      agent = TransferAgent.new(TRANSFER_TYPES, account_from_a, account_to_b, transfer_amount)
       expect(agent.execute_transfer.size).to be > 1
       expect(account_from_a.balance).to eq(balance_from_before - agent.full_withdraw_amount)
       expect(account_to_b.balance).to eq(balance_to_before + agent.amount)
@@ -58,12 +63,12 @@ RSpec.describe TransferAgent do
 
   describe 'errors' do
     it 'negative amount' do
-      expect { TransferAgent.new(account_from_a, account_to_b, '-5.0'.to_d) }
+      expect { TransferAgent.new(TRANSFER_TYPES, account_from_a, account_to_b, '-5.0'.to_d) }
         .to raise_error('amount of money must be positive')
     end
 
     it 'not enough balance in origin' do
-      agent = TransferAgent.new(account_from_a, account_to_b, account_from_a.balance + '1.0'.to_d)
+      agent = TransferAgent.new(TRANSFER_TYPES, account_from_a, account_to_b, account_from_a.balance + '1.0'.to_d)
       expect { agent.execute_transfer }
         .to raise_error('not enough account balance for transfer')
     end

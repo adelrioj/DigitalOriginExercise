@@ -13,14 +13,10 @@ require 'banking/transfers/transfer_basic'
 # he issues transfers considering commissions, transfer limits and possibility of transfer failures.
 class TransferAgent
 
-  TRANSFER_TYPES = {
-    intra_bank: Banking::Transfers::TransferBasic.new('+Infinity'.to_d, '0.0'.to_d, 0),
-    inter_bank: Banking::Transfers::TransferBasic.new('1000.0'.to_d, '5.0'.to_d, 30)
-  }.freeze
+  attr_reader :transfer_types, :account_from, :account_to, :amount, :transfers
 
-  attr_reader :account_from, :account_to, :amount, :transfers
-
-  def initialize(account_from, account_to, amount)
+  def initialize(transfer_types, account_from, account_to, amount)
+    @transfer_types = transfer_types
     @account_from = account_from
     @account_to = account_to
     @amount = amount
@@ -42,9 +38,9 @@ class TransferAgent
 
   def transfer_type
     if @account_from.bank == @account_to.bank
-      TRANSFER_TYPES[:intra_bank]
+      @transfer_types[:intra_bank]
     else
-      TRANSFER_TYPES[:inter_bank]
+      @transfer_types[:inter_bank]
     end
   end
 
