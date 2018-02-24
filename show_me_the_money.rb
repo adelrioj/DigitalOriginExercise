@@ -27,8 +27,7 @@ def print_status(account_a, account_b)
 end
 
 def print_account_status(account)
-  pretty_balance = (account.balance.to_f * 100).to_i / 100.0
-  puts "#{account.client_name}'s account balance is #{pretty_balance}€"
+  puts account.to_s
   print_bank_transfers(account.bank)
 end
 
