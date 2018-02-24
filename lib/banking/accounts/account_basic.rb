@@ -1,6 +1,7 @@
 require 'bigdecimal'
 require 'bigdecimal/util'
 require 'banking/accounts/account_helper'
+require 'banking/money_helper'
 
 module Banking
   module Accounts
@@ -8,6 +9,7 @@ module Banking
     # and include operations to deposit and withdraw money.
     class AccountBasic
       include Banking::Accounts::AccountHelper
+      include Banking::MoneyHelper
 
       DEFAULT_INITIAL_DEPOSIT = '0'.to_d.freeze
 
@@ -38,7 +40,7 @@ module Banking
       end
 
       def to_s
-        "Bank: #{@bank.name} Account: #{@account_number} client: #{@client_name}"
+        "Bank: #{@bank.name} Account: #{@account_number} client: #{@client_name} balance: #{prettify(@balance)}"
       end
 
       private

@@ -1,11 +1,13 @@
 require 'bigdecimal'
 require 'bigdecimal/util'
+require 'banking/money_helper'
 
 module Banking
   module Transfers
     # Model for a transference operation, performed by any type of transfer.
     # Used to store a record of the transfer.
     class TransferRecord
+      include Banking::MoneyHelper
 
       attr_reader :account_from, :account_to, :amount, :commission
 
@@ -18,7 +20,7 @@ module Banking
       end
 
       def to_s
-        "account from: #{@account_from}\naccount to: #{@account_to}\namount: #{pretiffy_amount(@amount)}€"
+        "account from: #{@account_from}\naccount to: #{@account_to}\namount: #{prettify(@amount)}€"
       end
 
       private
@@ -26,10 +28,6 @@ module Banking
       def validate
         raise ArgumentError, 'amount of money must be positive' if @amount < '0.0'.to_d
         raise ArgumentError, 'Accounts must be different' if @account_from == @account_to
-      end
-
-      def pretiffy_amount(amount)
-        (amount.to_f * 100).to_i / 100.0
       end
     end
   end
