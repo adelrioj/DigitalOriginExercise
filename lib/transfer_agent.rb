@@ -26,7 +26,6 @@ class TransferAgent
     @amount = amount
     validate
 
-    @transfer_class = determine_transfer_class
     @full_iterations = calculate_full_iterations
     @transfers = []
   end
@@ -39,18 +38,18 @@ class TransferAgent
   end
 
   def transfer_splitted?
-    @amount > @transfer_class.amount_limit
+    @amount > transfer_type.amount_limit
   end
 
   def full_withdraw_amount
-    iterations = @amount + @full_iterations * @transfer_class.commission
-    iterations += @transfer_class.commission if last_iteration_amount > '0.0'.to_d
+    iterations = @amount + @full_iterations * transfer_type.commission
+    iterations += transfer_type.commission if last_iteration_amount > '0.0'.to_d
     iterations
   end
 
   private
 
-  def determine_transfer_class
+  def transfer_type
     if @account_from.bank == @account_to.bank
       TRANSFER_TYPES[:intra_bank]
     else
@@ -67,20 +66,20 @@ class TransferAgent
   end
 
   def calculate_full_iterations
-    (@amount / @transfer_class.amount_limit).to_i
+    (@amount / transfer_type.amount_limit).to_i
   end
 
   def last_iteration_amount
-    @amount % @transfer_class.amount_limit
+    @amount % transfer_type.amount_limit
   end
 
   def execute_splitted_transfer
-    @full_iterations.times { |_i| execute_individual_transfer(@transfer_class.amount_limit) }
+    @full_iterations.times { |_i| execute_individual_transfer(transfer_type.amount_limit) }
     execute_individual_transfer(last_iteration_amount) unless last_iteration_amount.zero?
   end
 
   def execute_individual_transfer(amount)
-    record = @transfer_class.apply(@account_from, @account_to, amount)
+    record = transfer_type.apply(@account_from, @account_to, amount)
     @transfers << record
   rescue StandardError
     execute_individual_transfer(amount)
