@@ -8,6 +8,7 @@ require 'banking/accounts/account_basic'
 require 'banking/transfers/transfer_intra_bank'
 require 'banking/transfers/transfer_inter_bank'
 require 'banking/transfers/transfer_helper'
+require 'banking/transfers/transfer_record'
 
 # Simulates the operations of a transfer agent, that assures that everybody gets their money.
 # When the agent receives an order to transfer money from account A to account B,
