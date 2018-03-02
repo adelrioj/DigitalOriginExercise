@@ -10,8 +10,8 @@ In the following points, I will explain some decisions that I made to solve this
 
  - TransferAgent is account-agnostic and it's really easy to add new transfer types to it.
  - Transfers are easy to add as well, because they are created by type instead of an ad-hoc solution. 
- They are adjusted to what is described in the challenge. In order to add more Transfers, just create a new class
- Transfer that implements public methods common to all Transfers. 
+ They are adjusted to what is described in the challenge. In order to add more Transfers, just create transfers with different
+ parameters and initialize TransferAgent with it.
  - To allow the TransferAgent to use new transfer types, just add the new class to 
  TransferAgent::determine_transfer_class method.
  
